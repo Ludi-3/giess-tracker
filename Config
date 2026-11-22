@@ -1,0 +1,9 @@
+// ===== Deine Supabase-Zugangsdaten =====
+// Beide Werte findest du in Supabase unter Project Settings.
+//
+// Der "publishable" bzw. "anon" Key darf öffentlich im Code stehen –
+// die Daten sind über die RLS-Regeln in der Datenbank geschützt.
+// NIEMALS den "secret" bzw. "service_role" Key hier eintragen!
+
+const SUPABASE_URL = "https://DEIN-PROJEKT.supabase.co";
+const SUPABASE_KEY = "DEIN_PUBLISHABLE_KEY";
