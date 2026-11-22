@@ -1,0 +1,92 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: #f4f7f4;
+  color: #1f2d1f;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+h1 { margin: 0; }
+h2 { font-size: 1.1rem; margin: 1.5rem 0 0.75rem; }
+.subtitle { margin: 0.25rem 0 0; color: #5b6b5b; }
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 0.25rem 1rem 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-top: 1.5rem;
+}
+
+form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: #3c4a3c;
+}
+
+input {
+  font: inherit;
+  padding: 0.5rem;
+  border: 1px solid #cdd6cd;
+  border-radius: 8px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  background: #2f7d32;
+  color: #fff;
+}
+button:hover { background: #276a2a; }
+
+button.secondary {
+  background: transparent;
+  color: #8a3b3b;
+  padding: 0.55rem 0.5rem;
+}
+button.secondary:hover { background: #f6e9e9; }
+
+#plant-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.plant {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border-left: 6px solid #2f7d32;
+}
+.plant.due     { border-left-color: #e0a100; }
+.plant.overdue { border-left-color: #c62828; }
+
+.plant-info { flex: 1; }
+.plant-name { font-weight: 600; }
+.plant-status { font-size: 0.85rem; color: #5b6b5b; }
+.plant.due .plant-status     { color: #9a6d00; }
+.plant.overdue .plant-status { color: #c62828; font-weight: 600; }
+
+.hint { color: #7a877a; }

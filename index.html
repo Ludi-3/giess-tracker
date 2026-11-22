@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gieß-Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>🌱 Gieß-Tracker</h1>
+      <p class="subtitle">Welche Pflanze braucht heute Wasser?</p>
+    </header>
+
+    <section class="card">
+      <h2>Pflanze hinzufügen</h2>
+      <form id="plant-form">
+        <label>
+          Name
+          <input type="text" id="name" placeholder="z. B. Monstera" required>
+        </label>
+        <label>
+          Gießen alle … Tage
+          <input type="number" id="interval" min="1" max="365" value="7" required>
+        </label>
+        <label>
+          Zuletzt gegossen
+          <input type="date" id="last-watered" required>
+        </label>
+        <button type="submit">Hinzufügen</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Meine Pflanzen</h2>
+      <ul id="plant-list"></ul>
+      <p id="empty-hint" class="hint">Noch keine Pflanzen angelegt.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
