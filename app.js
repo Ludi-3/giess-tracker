@@ -2,7 +2,41 @@
 // Daten liegen in der Supabase-Datenbank, Fotos im Supabase-Speicher.
 // Dadurch sehen alle Geräte, die mit demselben Konto angemeldet sind, dieselben Pflanzen.
 
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// ---------- Fehler sichtbar machen statt leerer Seite ----------
+let fatalShown = false;
+function showFatal(message, force = true) {
+  if (fatalShown && !force) return; // erste, genauere Meldung behalten
+  fatalShown = true;
+  document.getElementById("app-view").hidden = true;
+  document.getElementById("login-view").hidden = false;
+  const el = document.getElementById("login-error");
+  el.textContent = message;
+  el.hidden = false;
+}
+window.addEventListener("error", (e) => showFatal("Fehler: " + e.message, false));
+window.addEventListener("unhandledrejection", (e) => showFatal("Fehler: " + (e.reason?.message || e.reason), false));
+
+if (typeof supabase === "undefined") {
+  showFatal("Die Supabase-Bibliothek konnte nicht geladen werden. Internetverbindung prüfen und neu laden.");
+  throw new Error("supabase-js fehlt");
+}
+if (typeof SUPABASE_URL === "undefined" || typeof SUPABASE_KEY === "undefined") {
+  showFatal("config.js ist fehlerhaft – bitte Anführungszeichen und Semikolons prüfen.");
+  throw new Error("config.js fehlerhaft");
+}
+
+// URL bereinigen: Leerzeichen, "/rest/v1" und Schrägstrich am Ende entfernen
+const CLEAN_URL = SUPABASE_URL.trim().replace(/\/rest\/v1\/?$/, "").replace(/\/+$/, "");
+
+const db = supabase.createClient(CLEAN_URL, SUPABASE_KEY.trim());
+
+// Sicherheitsnetz: Falls nach 5 Sekunden noch nichts angezeigt wird, Anmeldung zeigen
+setTimeout(() => {
+  if (document.getElementById("login-view").hidden && document.getElementById("app-view").hidden) {
+    showFatal("Keine Verbindung zu Supabase – bitte URL und Key in config.js prüfen.");
+  }
+}, 5000);
+
 const BUCKET = "plant-photos";
 const PHOTO_MAX_SIZE = 800;          // Fotos werden auf max. 800 px verkleinert
 const PHOTO_URL_LIFETIME = 60 * 60;  // Foto-Links gelten 1 Stunde (Sekunden)
