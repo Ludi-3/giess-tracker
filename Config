@@ -5,5 +5,5 @@
 // die Daten sind über die RLS-Regeln in der Datenbank geschützt.
 // NIEMALS den "secret" bzw. "service_role" Key hier eintragen!
 
-const SUPABASE_URL = "https://iydllrnropglaghkyssk.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://iydllrnropglaghkyssk.supabase.co";
 const SUPABASE_KEY = "sb_publishable__HQEWX_MP9NYhAltaTGeQQ_BA_mbEK4";
