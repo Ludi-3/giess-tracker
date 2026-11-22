@@ -2,43 +2,87 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2f7d32">
   <title>Gieß-Tracker</title>
+
+  <!-- App-Installation (PWA) -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Gießen">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main>
-    <header>
-      <h1>🌱 Gieß-Tracker</h1>
-      <p class="subtitle">Welche Pflanze braucht heute Wasser?</p>
+
+  <!-- ===== Anmeldung ===== -->
+  <section id="login-view" hidden>
+    <div class="login-box">
+      <div class="login-logo">🌱</div>
+      <h1>Gieß-Tracker</h1>
+      <form id="login-form">
+        <input type="email" id="login-email" placeholder="E-Mail" autocomplete="username" required>
+        <input type="password" id="login-password" placeholder="Passwort" autocomplete="current-password" required>
+        <button type="submit" class="btn-primary" id="login-btn">Anmelden</button>
+        <p id="login-error" class="error" hidden></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== Hauptansicht: Pflanzen-Park ===== -->
+  <section id="app-view" hidden>
+    <header class="topbar">
+      <div>
+        <h1>Pflanzen-Park</h1>
+        <p id="summary" class="summary"></p>
+      </div>
+      <button id="logout-btn" class="btn-plain small">Abmelden</button>
     </header>
 
-    <section class="card">
-      <h2>Pflanze hinzufügen</h2>
-      <form id="plant-form">
-        <label>
-          Name
-          <input type="text" id="name" placeholder="z. B. Monstera" required>
-        </label>
-        <label>
-          Gießen alle … Tage
-          <input type="number" id="interval" min="1" max="365" value="7" required>
-        </label>
-        <label>
-          Zuletzt gegossen
-          <input type="date" id="last-watered" required>
-        </label>
-        <button type="submit">Hinzufügen</button>
-      </form>
-    </section>
+    <main>
+      <div id="plant-grid" class="grid"></div>
+      <p id="empty-hint" class="hint" hidden>Noch keine Pflanzen.<br>Tippe auf ＋, um die erste anzulegen.</p>
+    </main>
 
-    <section>
-      <h2>Meine Pflanzen</h2>
-      <ul id="plant-list"></ul>
-      <p id="empty-hint" class="hint">Noch keine Pflanzen angelegt.</p>
-    </section>
-  </main>
+    <button id="add-btn" class="fab" aria-label="Pflanze hinzufügen">＋</button>
+  </section>
 
+  <!-- ===== Fenster von unten (Anlegen / Bearbeiten) ===== -->
+  <div id="sheet-backdrop" class="backdrop" hidden></div>
+  <div id="sheet" class="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div class="sheet-handle"></div>
+    <h2 id="sheet-title">Neue Pflanze</h2>
+    <form id="plant-form">
+      <label class="photo-picker">
+        <img id="photo-preview" alt="Foto der Pflanze" hidden>
+        <span id="photo-placeholder">📷<br>Foto hinzufügen</span>
+        <input type="file" id="photo-input" accept="image/*" hidden>
+      </label>
+
+      <label>Name
+        <input type="text" id="name" maxlength="60" placeholder="z. B. Monstera" required>
+      </label>
+      <label>Gießen alle … Tage
+        <input type="number" id="interval" min="1" max="365" required>
+      </label>
+      <label>Zuletzt gegossen
+        <input type="date" id="last-watered" required>
+      </label>
+
+      <button type="submit" class="btn-primary" id="save-btn">Speichern</button>
+      <button type="button" class="btn-danger" id="delete-btn" hidden>Pflanze löschen</button>
+      <button type="button" class="btn-plain" id="cancel-btn">Abbrechen</button>
+    </form>
+  </div>
+
+  <!-- Kurze Rückmeldungen ("Monstera gegossen") -->
+  <div id="toast" class="toast" hidden></div>
+
+  <!-- Supabase-Bibliothek, dann deine Zugangsdaten, dann die App -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
